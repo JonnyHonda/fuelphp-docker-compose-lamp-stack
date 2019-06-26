@@ -1,12 +1,10 @@
 # LAMP stack built with Docker Compose
 
-![Landing Page](https://preview.ibb.co/gOTa0y/LAMP_STACK.png)
-
 This is a basic LAMP stack environment built using Docker Compose. It consists following:
 
-* PHP
-* Apache
-* MySQL
+* PHP 7.2
+* Apache 2.4
+* MySQL 5.7
 * phpMyAdmin
 
 As of now, we have 3 different branches for different PHP versions. Use appropriate branch as per your php version need:
@@ -16,13 +14,13 @@ As of now, we have 3 different branches for different PHP versions. Use appropri
 
 ## Installation
 
-Clone this repository on your local computer and checkout the appropriate branch e.g. 7.1.x. Run the `docker-compose up -d`.
+Clone this repository on your local computer and switch to branch `7.2.x`. Run the `docker-compose up -d`.
 
 ```shell
 git clone https://github.com/sprintcube/docker-compose-lamp.git
 cd docker-compose-lamp/
 git fetch --all
-git checkout 7.1.x
+git checkout 7.2.x
 docker-compose up -d
 ```
 
