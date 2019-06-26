@@ -4,13 +4,19 @@ RUN apt-get -y update --fix-missing
 RUN apt-get upgrade -y
 
 # Install useful tools
-RUN apt-get -y install apt-utils nano wget dialog
+RUN apt-get -y install apt-utils nano wget dialog mc net-tools
 
 # Install important libraries
 RUN apt-get -y install --fix-missing apt-utils build-essential git curl libcurl3 libcurl3-dev zip openssl
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www/html
+RUN composer create-project fuel/fuel --prefer-dist .
+RUN php oil r install
+#RUN git clone git://github.com/fuel/fuel.git .
+#RUN  composer install --prefer-dist
 
 # Install xdebug
 RUN pecl install xdebug-2.6.0
@@ -23,7 +29,7 @@ RUN docker-php-ext-enable redis
 # Other PHP7 Extensions
 
 RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client
-RUN docker-php-ext-install pdo_mysql 
+RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install mysqli
 
@@ -41,8 +47,12 @@ RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install gettext
 
 RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ 
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd
+
+WORKDIR /var/www/html
+COPY . .
+RUN php oil r install
 
 # Enable apache modules
 RUN a2enmod rewrite headers
